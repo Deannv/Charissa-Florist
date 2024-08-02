@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('image');
             $table->double('price');
-            $table->tinyInteger('discount')->nullable();
-            $table->integer('stock')->default(0);
+            $table->boolean('is_available')->default(true);
             $table->timestamps();
         });
     }

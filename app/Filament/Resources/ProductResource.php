@@ -28,14 +28,7 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('price')
-                    ->integer()
-                    ->required(),
-                Forms\Components\TextInput::make('discount')
-                    ->integer()
-                    ->maxValue(100)
-                    ->nullable(),
-                Forms\Components\TextInput::make('stock')
+                Forms\Components\TextInput::make('price')->prefix('Rp')
                     ->integer()
                     ->required(),
                 Forms\Components\Select::make('category_id')
@@ -48,6 +41,11 @@ class ProductResource extends Resource
                             ->maxLength(255),
                     ])
                     ->required(),
+                Forms\Components\Toggle::make('is_available')
+                    ->onIcon('heroicon-m-check')
+                    ->offIcon('heroicon-m-x-mark')
+                    ->onColor('success')
+                    ->offColor('danger'),
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->imageEditor()
@@ -57,6 +55,7 @@ class ProductResource extends Resource
                         '4:3',
                         '1:1',
                     ])
+                    ->directory('product')
                     ->required()
             ]);
     }
@@ -67,11 +66,13 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('category.name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('price')->numeric(),
-                Tables\Columns\TextColumn::make('discount')->numeric()->sortable(),
-                Tables\Columns\TextColumn::make('stock')->numeric()->color(function ($state) {
-                    return ($state ? 'success' : 'danger');
-                })->sortable(),
+                Tables\Columns\TextColumn::make('price')->prefix('Rp')->numeric()->sortable(),
+                Tables\Columns\ToggleColumn::make('is_available')
+                    ->onIcon('heroicon-m-check')
+                    ->offIcon('heroicon-m-x-mark')
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->sortable(),
                 Tables\Columns\ImageColumn::make('image')
                     ->size(70),
             ])

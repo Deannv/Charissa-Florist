@@ -14,4 +14,16 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_available' => 'boolean',
+        ];
+    }
 }
